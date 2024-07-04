@@ -1,6 +1,7 @@
 {
   "src": [
     "pages/Index",
-    "pages/profile"
+    "pages/profile",
+    "pages/EditPage"
   ]
 }

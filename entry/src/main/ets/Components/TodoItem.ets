@@ -1,11 +1,15 @@
+import router from '@ohos.router';
+
 @Component
 export default struct TodoItem {
   @Prop name: string;
   @Prop tag: string;
+  handleOpenDeleteDialog: () => void = () => {
+  }
 
   @Builder
-  IconBuilder(r: Resource) {
-    Image(r).width(20).height(20);
+  IconBuilder(r: Resource, clickEvent: () => void) {
+    Image(r).width(20).height(20).onClick(clickEvent);
   }
 
   build() {
@@ -19,8 +23,10 @@ export default struct TodoItem {
       Text(this.name).width('80%').fontSize(20)
         .fontWeight(FontWeight.Bold)
       Column({ space: 10 }) {
-        this.IconBuilder($r('app.media.edit_24dp_FILL0_wght400_GRAD0_opsz24'))
-        this.IconBuilder($r('app.media.delete_24dp_FILL0_wght400_GRAD0_opsz24'))
+        this.IconBuilder($r('app.media.edit_24dp_FILL0_wght400_GRAD0_opsz24'), () => {
+          router.pushUrl({ url: 'pages/EditPage', params: { tag: this.tag, name: this.name } })
+        })
+        this.IconBuilder($r('app.media.delete_24dp_FILL0_wght400_GRAD0_opsz24'), this.handleOpenDeleteDialog)
       }
     }.padding({
       top: 10,
