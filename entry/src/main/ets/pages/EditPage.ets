@@ -5,23 +5,26 @@ import { EditViewParams } from '../viewModel/TodoListEditModel';
 @Entry
 @Component
 export default struct EditPage {
-  private params: EditViewParams = router.getParams() as EditViewParams
   @State curName: string = '';
   @State curTag: string = '';
+  @State curId: string = '';
 
   onPageShow(): void {
-    console.log('params', JSON.stringify(this.params))
-
+    const params: EditViewParams = router.getParams() as EditViewParams
+    if (params) {
+      this.curName = params.name
+    }
   }
 
   @Builder
   inputRow(placeholder: string) {
-    TextInput({ placeholder })
+    TextInput({ placeholder, text: this.curName })
       .backgroundColor(Color.White)
       .borderWidth({ bottom: 1 })
       .borderRadius(0)
       .borderColor('#ccc')
       .placeholderColor('#CCC')
+
   }
 
   build() {

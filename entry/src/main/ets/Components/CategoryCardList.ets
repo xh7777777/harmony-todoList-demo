@@ -3,9 +3,10 @@ import CategoryViewModel, { CategoryCardItem } from '../viewModel/CategoryViewMo
 @Component
 export default struct CategoryCardList {
   private categoryObj = CategoryViewModel.categoryCards
+  @Prop currentActive: number = -1
 
   @Builder
-  CategoryCard(item: CategoryCardItem) {
+  CategoryCard(item: CategoryCardItem, key: number) {
     Flex({ justifyContent: FlexAlign.Center, alignItems: ItemAlign.Center }) {
       Image(item.icon).width(50).height(50)
     }
@@ -20,13 +21,22 @@ export default struct CategoryCardList {
       offsetY: 10,
       type: ShadowType.COLOR,
     })
+    .borderColor('#ccc')
+    .borderWidth(this.currentActive === key ? 5 : 0)
+    .onClick(() => {
+      if (this.currentActive === key) {
+        this.currentActive = -1;
+      } else {
+        this.currentActive = key
+      }
+    })
   }
 
   build() {
     Grid() {
-      ForEach(Object.entries(this.categoryObj), (item: [string, CategoryCardItem]) => {
+      ForEach(Object.entries(this.categoryObj), (item: [string, CategoryCardItem], index: number) => {
         GridItem() {
-          this.CategoryCard(item[1])
+          this.CategoryCard(item[1], index)
         }
       }, (item: [string, CategoryCardItem]) => item[0])
     }
